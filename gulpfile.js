@@ -16,7 +16,7 @@ var jshint = require('gulp-jshint');
 var pleeease = require('gulp-pleeease');
 
 var path = {
-	jade: 'src/preprocessors/jade/**.*',
+	jade: 'src/preprocessors/jade/',
 	stylus: 'src/preprocessors/stylus/**/*.styl',
 	coffee: 'src/preprocessors/coffee/**/*.coffee',
 	spriteStylDist: 'src/preprocessors/stylus/_mixins/',
@@ -31,7 +31,13 @@ var path = {
 };
 
 gulp.task('jade', function() {
-	gulp.src(path.jade)
+	gulp.src([
+		path.jade + '*.jade',
+		path.jade + '**/*.jade',
+		'!' + path.jade + '_**/*.jade',
+		'!' + path.jade + '/**/_**/*.jade',
+		'!' + path.jade + '/**/_*.jade'
+		])
 		.pipe(jade({
 			pretty : true
 		}))
@@ -73,7 +79,7 @@ gulp.task('sprite', function () {
 });
 
 gulp.task('imagemin', function () {
-	return gulp.src(path.imgSrc + '**') // searches in subdirectories
+	return gulp.src(path.imgSrc + '**')
 	.pipe(imagemin({
 		progressive: true,
 		svgoPlugins: [{removeViewBox: false}],
@@ -101,7 +107,7 @@ gulp.task('browserSync', function(){
 
 gulp.task('watch', function() {
 	gulp.start('browserSync');
-	gulp.watch([path.jade],['jade', reload]);
+	gulp.watch([path.jade + '**/*.jade'],['jade', reload]);
 	gulp.watch([path.stylus],['stylus', reload]);
 	gulp.watch([path.coffee], ['coffee', reload]);
 });
