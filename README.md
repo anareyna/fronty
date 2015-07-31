@@ -31,12 +31,11 @@ fronty/
 ├── img/
 │   ├── sprite/
 │   └── logo.png
+├── js/
 └── preprocessors/
-    ├── glyphicons-halflings-regular.eot
-    ├── glyphicons-halflings-regular.svg
-    ├── glyphicons-halflings-regular.ttf
-    ├── glyphicons-halflings-regular.woff
-    └── glyphicons-halflings-regular.woff2
+    ├── coffee/
+    ├── jade/
+    └── stylus/
 ```
 * `fonts`
 * `img` : You have to add all the images that will be used in your project here, a copy of the optimized images will then be exported to the `dist/img` folder.
