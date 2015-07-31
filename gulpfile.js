@@ -16,16 +16,16 @@ var jshint = require('gulp-jshint');
 var pleeease = require('gulp-pleeease');
 
 var path = {
-	jade: 'src/jade/**.*',
-	stylus: 'src/stylus/**/*.styl',
-	coffee: 'src/coffee/**/*.coffee',
+	jade: 'src/preprocessors/jade/**.*',
+	stylus: 'src/preprocessors/stylus/**/*.styl',
+	coffee: 'src/preprocessors/coffee/**/*.coffee',
+	spriteStylDist: 'src/preprocessors/stylus/_mixins/',
 	jsSrc: 'src/js/**/*.js',
 	html: './dist/',
 	css: './dist/css',
 	js: './dist/js',
 	spriteSrc: 'src/img/sprite/*.png',
 	imgSrc: 'src/img/',
-	spriteStylDist: 'src/stylus/_mixins/',
 	imgDist: './dist/img/'
 
 };
