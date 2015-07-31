@@ -13,13 +13,13 @@ Open the terminal and change directory to `fronty/`.
     ```
     bower install
     ```
-* Execute all the default gulp tasks. 
+* Run all the default gulp tasks. 
     ```
-    run gulp
+    gulp
     ```
 * Open project in browser and watch for file changes. 
     ```
-    run gulp watch
+    gulp watch
     ```
 
 ## Start coding
