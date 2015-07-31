@@ -1,0 +1,27 @@
+{
+  "name": "base",
+  "description": "Basic structure for small development projects.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ana Reyna",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.7.7",
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-imagemin": "^2.3.0",
+    "gulp-jade": "^1.1.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-jslint": "^0.2.2",
+    "gulp-pleeease": "^1.2.0",
+    "gulp-stylus": "^2.0.5",
+    "gulp-util": "^3.0.6",
+    "gulp.spritesmith": "^3.8.2",
+    "imagemin-pngquant": "^4.1.2",
+    "jeet": "^6.1.2",
+    "jshint-stylish": "^2.0.1",
+    "run-sequence": "^1.1.2",
+    "rupture": "^0.6.1"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Base",
+  "version": "1.0",
+  "authors": [
+    "Ana Reyna <anareymej@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "jquery": "1.11.1",
+    "html5shiv": "~3.7.2",
+    "modernizr": "~2.8.3"
+  }
+}
