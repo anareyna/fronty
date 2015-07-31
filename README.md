@@ -36,15 +36,23 @@ fronty/
 ├── js/
 └── preprocessors/
     ├── coffee/
-    │	└── app.coffee
+    │   └── app.coffee
     ├── jade/
     │   ├── _config/
     │   ├── _layout/
     │   ├── _mixins/
     │   ├── _partials/
     │   ├── _render/
-    │	└── index.jade
+    │   └── index.jade
     └── stylus/
+        ├── _config/
+        ├── _helpers/
+        ├── _layouts/
+        ├── _mixins/
+        ├── _normalize/
+        ├── fonts.styl
+        ├── ie.styl
+        └── layout.styl
 ```
 * `fonts` : Add font files in this folder `(*.eot,*.ttf, *.woff, *.svg)`.
 * `img` : You have to add all the images that will be used in your project here, a copy of the optimized images will then be exported to the `dist/img` folder.
@@ -67,20 +75,8 @@ fronty/
 
 
 ## Gulp tasks 
-In terminal make sure you are in the to `fronty/` directory.
+In terminal make sure you are in the `fronty/` directory.
 
-### Generate sprites
-
-```
-	gulp sprite
-```
-This task will create the `sprite.png` located at `dist/img/` which will also be the optimized (minified) image version.
-In order to use it you have to follow this structure in any of your `.styl` file. 
-```
-.ico
-	sprite($ico1)
-```
-Which will render to css. Notice that the `$ico1` variable name has to be the same as your image file name `src/img/sprite/img1.png`.
 
 ### Compile Stylus
 ```
@@ -100,10 +96,30 @@ This will compile to html all the `.jade` files in `src/preprocessors/jade` and 
 ```
 This will compile all the `.coffee` files in `src/preprocessors/coffee` and concatenate them to a single file located in `dist/js/app.js`. If you want to use any js plugin it's recommended that you do so by using [bower](http://bower.io).
 
+### Generate sprites
+
+```
+	gulp sprite
+```
+This task will create the `sprite.png` located at `dist/img/` which will also be the optimized (minified) image version.
+In order to use it you have to follow this structure in any of your `.styl` file. 
+```
+.ico
+	sprite($ico1)
+```
+Which will render to css. Notice that the `$ico1` variable name has to be the same as your image file name `src/img/sprite/img1.png`.
+
+### Minimize images
+```
+	gulp imagemin
+```
+This task will create a copy of all your image files located in `src/img/` and create an optimized and lighter version in the folder `dist/img/`.
+
+
 ## Resources
 * [Coffescript](http://coffeescript.org/)
 * [Jade](http://jade-lang.com/)
 * [Stylus](https://learnboost.github.io/stylus/) also uses [Jeet (Grid System)](http://jeet.gs/) and [Rupture (Media queries)](https://github.com/jenius/rupture) 
-* [Pleeease](http://pleeease.io/) comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more... 
+* [Pleeease](http://pleeease.io/) (comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more...) 
 * [Gulp](http://gulpjs.com/)
 * [Bower](http://bower.io)
