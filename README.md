@@ -56,8 +56,8 @@ fronty/
 ```
 * `fonts` : Add font files in this folder `(*.eot,*.ttf, *.woff, *.svg)`.
 * `img` : You have to add all the images that will be used in your project here, a copy of the optimized images will then be exported to the `dist/img` folder.
-    * `sprite` : Here you can add separated image files that will be part of your sprite which will be created with automatically from here with a gulp task. These images need to be in `.png` format.
-* `js` : If you want you can add `*.js` files that will be concatenated to the main script `app.js`.
+    * `sprite` : Here you can add separated image files that will be part of your sprite which will be created  automatically from here with a gulp task. These images need to be in `.png` format.
+* `js` : If you want you can add `*.js` files that will be concatenated to the main script `dis/js/app.js` with a gulp task.
 * `preprocessors`
     * `coffee` : This folder contains a file named `app.coffee` which has a basic module structure to get you started and should contain all your application logic.
     * `jade` : This folder contains all your `.jade` files separated in nice individual folders for future project scalability and better debugging. The `index.jade` file is your starting point.
@@ -102,7 +102,7 @@ This will compile all the `.coffee` files in `src/preprocessors/coffee` and conc
 	gulp sprite
 ```
 This task will create the `sprite.png` located at `dist/img/` which will also be the optimized (minified) image version.
-In order to use it you have to follow this structure in any of your `.styl` file. 
+In order to use the mixin that this task creates you have to follow this structure in any of your `.styl` files. 
 ```
 .ico
 	sprite($ico1)
