@@ -22,8 +22,8 @@ var path = {
 	spriteStylDist: 'src/preprocessors/stylus/_mixins/',
 	jsSrc: 'src/js/**/*.js',
 	html: './dist/',
-	css: './dist/css',
-	js: './dist/js',
+	css: './dist/css/',
+	js: './dist/js/',
 	spriteSrc: 'src/img/sprite/*.png',
 	imgSrc: 'src/img/',
 	imgDist: './dist/img/'
@@ -95,6 +95,11 @@ gulp.task('imagemin', function () {
 		.pipe(jshint.reporter('fail'));
  });
 
+gulp.task('concatjs', function() {
+  return gulp.src([path.jsSrc, path.js + 'app.js' ])
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest(path.js));
+});
 
 gulp.task('browserSync', function(){
 	return browserSync({
