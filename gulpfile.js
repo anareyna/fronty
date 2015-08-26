@@ -14,10 +14,13 @@ var reload = browserSync.reload;
 var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var pleeease = require('gulp-pleeease');
+var uncss = require('gulp-uncss');
+var sass = require('gulp-sass');
 
 var path = {
 	jade: 'src/preprocessors/jade/',
 	stylus: 'src/preprocessors/stylus/**/*.styl',
+	sass: 'src/preprocessors/sass/**/*.scss',
 	coffee: 'src/preprocessors/coffee/**/*.coffee',
 	spriteStylDist: 'src/preprocessors/stylus/_mixins/',
 	jsSrc: 'src/js/**/*.js',
@@ -56,6 +59,18 @@ gulp.task('stylus', function () {
 	.pipe(gulp.dest(path.css));
 });
 
+gulp.task('sass', function () {
+	gulp.src(path.sass)
+		.pipe(sass(/*{
+			use: [
+				jeet(),
+				rupture()
+			]
+		}*/).on('error', sass.logError))
+		/*.pipe(pleeease())*/
+		.pipe(gulp.dest(path.css));
+});
+
 
 gulp.task('coffee', function() {
 	return gulp.src(path.coffee)
@@ -67,7 +82,7 @@ gulp.task('coffee', function() {
 gulp.task('sprite', function () {
 	var spriteData = gulp.src(path.spriteSrc).pipe(spritesmith({
 		imgName: 'sprite.png',
-		cssName: 'sprite.styl',
+		cssName: 'sprite.scss',
 		padding: 2,
 		algorithm: 'binary-tree',
 		imgPath: '../img/sprite.png'
@@ -113,11 +128,11 @@ gulp.task('browserSync', function(){
 gulp.task('watch', function() {
 	gulp.start('browserSync');
 	gulp.watch([path.jade + '**/*.jade'],['jade', reload]);
-	gulp.watch([path.stylus],['stylus', reload]);
+	gulp.watch([path.sass], ['sass', reload]);
 	gulp.watch([path.coffee], ['coffee', reload]);
 });
 
 
 gulp.task('default', function() {
-	runSequence(['jade', 'coffee', 'lint', 'stylus', 'sprite', 'imagemin']);
+	runSequence(['jade', 'coffee', 'lint', 'sass', 'sprite', 'imagemin']);
 });
