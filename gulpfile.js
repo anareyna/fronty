@@ -16,6 +16,7 @@ var jshint = require('gulp-jshint');
 var pleeease = require('gulp-pleeease');
 var uncss = require('gulp-uncss');
 var sass = require('gulp-sass');
+var cssGlobbing = require('gulp-css-globbing');
 
 var path = {
 	jade: 'src/preprocessors/jade/',
@@ -61,15 +62,26 @@ gulp.task('stylus', function () {
 
 gulp.task('sass', function () {
 	gulp.src(path.sass)
-		.pipe(sass(/*{
+		.pipe(cssGlobbing({ // added to support scss globbing
+				extensions: ['.scss']
+			}))
+		.pipe(sass().on('error', sass.logError))
+		.pipe(gulp.dest(path.css));
+});
+
+
+/*gulp.task('sass', function () {
+	gulp.src(path.sass)
+		.pipe(sass(
 			use: [
 				jeet(),
 				rupture()
 			]
-		}*/).on('error', sass.logError))
-		/*.pipe(pleeease())*/
+		).on('error', sass.logError))
+		.pipe(pleeease())
 		.pipe(gulp.dest(path.css));
-});
+});*/
+
 
 
 gulp.task('coffee', function() {
