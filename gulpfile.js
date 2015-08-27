@@ -21,7 +21,8 @@ var cssGlobbing = require('gulp-css-globbing');
 var path = {
 	jade: 'src/preprocessors/jade/',
 	stylus: 'src/preprocessors/stylus/**/*.styl',
-	sass: 'src/preprocessors/sass/**/*.scss',
+	sass: 'src/preprocessors/sass/',
+	//sass: 'src/preprocessors/sass/**/*.scss',
 	coffee: 'src/preprocessors/coffee/**/*.coffee',
 	spriteStylDist: 'src/preprocessors/stylus/_mixins/',
 	jsSrc: 'src/js/**/*.js',
@@ -42,10 +43,10 @@ gulp.task('jade', function() {
 		'!' + path.jade + '/**/_**/*.jade',
 		'!' + path.jade + '/**/_*.jade'
 		])
-		.pipe(jade({
-			pretty : true
-		}))
-		.pipe(gulp.dest(path.html));
+	.pipe(jade({
+		pretty : true
+	}))
+	.pipe(gulp.dest(path.html));
 });
 
 gulp.task('stylus', function () {
@@ -61,28 +62,22 @@ gulp.task('stylus', function () {
 });
 
 gulp.task('sass', function () {
-	gulp.src(path.sass)
+	gulp.src([
+		path.sass + '*.scss',
+		path.sass + '**/*.scss',
+		'!' + path.sass + '_**/*.scss',
+		'!' + path.sass + '/**/_**/*.scss',
+		'!' + path.sass + '/**/_*.scss'
+		])
 		.pipe(cssGlobbing({ // added to support scss globbing
 				extensions: ['.scss']
 			}))
-		.pipe(sass().on('error', sass.logError))
-		.pipe(gulp.dest(path.css));
-});
-
-
-/*gulp.task('sass', function () {
-	gulp.src(path.sass)
-		.pipe(sass(
-			use: [
-				jeet(),
-				rupture()
-			]
-		).on('error', sass.logError))
+		.pipe(sass({
+			outputStyle: 'compressed'
+			}).on('error', sass.logError))
 		.pipe(pleeease())
 		.pipe(gulp.dest(path.css));
-});*/
-
-
+});
 
 gulp.task('coffee', function() {
 	return gulp.src(path.coffee)
