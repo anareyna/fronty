@@ -62,9 +62,9 @@ gulp.task('stylus', function () {
 });
 
 gulp.task('sass', function () {
-	gulp.src([
+	return gulp.src([
 		path.sass + '*.scss',
-		path.sass + '**/*.scss',
+		path.sass + '**/**/*.scss',
 		'!' + path.sass + '_**/*.scss',
 		'!' + path.sass + '/**/_**/*.scss',
 		'!' + path.sass + '/**/_*.scss'
@@ -73,7 +73,7 @@ gulp.task('sass', function () {
 				extensions: ['.scss']
 			}))
 		.pipe(sass({
-			outputStyle: 'compressed'
+			outputStyle: 'expanded'
 			}).on('error', sass.logError))
 		.pipe(pleeease())
 		.pipe(gulp.dest(path.css));
