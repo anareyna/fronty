@@ -14,20 +14,24 @@ var reload = browserSync.reload;
 var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var pleeease = require('gulp-pleeease');
+var iconfont = require('gulp-iconfont');
+var consolidate = require("gulp-consolidate");
+var fs = require('fs');
 
 var path = {
+	frontend: 'src/',
 	jade: 'src/preprocessors/jade/',
-	stylus: 'src/preprocessors/stylus/**/*.styl',
-	coffee: 'src/preprocessors/coffee/**/*.coffee',
+	stylusFiles: 'src/preprocessors/stylus/**/*.styl',
+	coffeeFiles: 'src/preprocessors/coffee/**/*.coffee',
 	spriteStylDist: 'src/preprocessors/stylus/_mixins/',
+	stylusSrc: 'src/preprocessors/stylus/',
 	jsSrc: 'src/js/**/*.js',
 	html: './dist/',
 	css: './dist/css/',
 	js: './dist/js/',
 	spriteSrc: 'src/img/sprite/*.png',
 	imgSrc: 'src/img/',
-	imgDist: './dist/img/'
-
+	imgDist: './dist/img/',
 };
 
 gulp.task('jade', function() {
@@ -45,20 +49,20 @@ gulp.task('jade', function() {
 });
 
 gulp.task('stylus', function () {
-	return gulp.src(path.stylus)
-	.pipe(stylus({
-		use: [
-			jeet(),
-			rupture()
-		]
-	}))
-	.pipe(pleeease())
-	.pipe(gulp.dest(path.css));
+	return gulp.src(path.stylusFiles)
+		.pipe(stylus({
+			use: [
+				jeet(),
+				rupture()
+			]
+		}))
+		.pipe(pleeease())
+		.pipe(gulp.dest(path.css));
 });
 
 
 gulp.task('coffee', function() {
-	return gulp.src(path.coffee)
+	return gulp.src(path.coffeeFiles)
 		.pipe(coffee({bare: true}).on('error', gutil.log))
 		.pipe(gulp.dest(path.js))
 });
@@ -88,17 +92,54 @@ gulp.task('imagemin', function () {
 	.pipe(gulp.dest(path.imgDist));
 	});
 
- gulp.task('lint', function() {
-    return gulp.src(path.js)
+gulp.task('lint', function() {
+	return gulp.src(path.js)
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
  });
 
 gulp.task('concatjs', function() {
-  return gulp.src([path.jsSrc, path.js + 'app.js' ])
-    .pipe(concat('app.js'))
-    .pipe(gulp.dest(path.js));
+	return gulp.src([path.jsSrc, path.js + 'app.js' ])
+		.pipe(concat('app.js'))
+		.pipe(gulp.dest(path.js));
+});
+
+gulp.task('fonts:compile', function(cb){
+	var dirList = []
+	fs.readdirSync(path.frontend +  "fonts/").forEach(function(file){
+		if(/^[^_]*$/g.test(file)){
+			dirList.push(file)
+		}
+	});
+	return gulp.src(path.frontend + '/fonts/_template/fonts.styl')
+		.pipe(consolidate('lodash', { dirList: dirList }))
+		.pipe(gulp.dest(path.stylusSrc));
+});
+
+gulp.task('icons:compile', function(cb){
+	return gulp.src(path.frontend + '/icons/*.svg')
+		.pipe(iconfont({ 
+			normalize: true, 
+			fontName: 'iconFonts-webfont',
+			appendUnicode: false
+		}))
+		.on('codepoints', function(codepoints, options) {
+			gulp.src(path.frontend + '/icons/_template/icons.styl') //Template
+			.pipe(consolidate('lodash', {
+				glyphs: codepoints,
+				fontName: 'iconFonts'
+			}))
+			.pipe(gulp.dest(path.stylusSrc + '/_helpers'));
+		})
+		.pipe(gulp.dest(path.frontend + '/fonts/iconFonts'));
+});
+
+gulp.task('copy:fonts', function() {
+	return gulp.src(
+			path.frontend + 'fonts/**/*.*',
+    		{ base : path.frontend })
+		.pipe(gulp.dest(path.html));
 });
 
 gulp.task('browserSync', function(){
@@ -117,7 +158,14 @@ gulp.task('watch', function() {
 	gulp.watch([path.coffee], ['coffee', reload]);
 });
 
+gulp.task('fonts', function(cb){
+	runSequence('fonts:compile', 'stylus', 'copy:fonts', cb)
+});
 
-gulp.task('default', function() {
-	runSequence(['jade', 'coffee', 'lint', 'stylus', 'sprite', 'imagemin']);
+gulp.task('icons', function(cb){
+	runSequence('icons:compile', 'fonts:compile', 'stylus', 'copy:fonts', cb)
+});
+
+gulp.task('default', function(cb) {
+	runSequence('jade', 'coffee', 'lint', 'stylus', 'sprite', 'imagemin', 'fonts', 'icons', cb);
 });

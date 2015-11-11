@@ -1,7 +1,7 @@
 .icon
 	-webkit-font-smoothing antialiased
 	display inline-block
-	font-family "iconFonts"
+	font-family "<%= fontName %>"
 	font-size 22px
 	font-style normal
 	font-variant normal
@@ -11,9 +11,7 @@
 	text-transform none
 	vertical-align middle
 
-
-.icon_delete:before
-	content "\E001"
-
-.icon_pointer:before
-	content "\E002"
+<% _.each(glyphs, function(glyph) { %>
+.icon_<%= glyph.name %>:before
+	content "\<%= glyph.codepoint.toString(16).toUpperCase() %>"
+<% }); %>
