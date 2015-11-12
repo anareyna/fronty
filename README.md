@@ -26,38 +26,40 @@ Open the terminal and change directory to `fronty/`.
 
 ## Start coding
 
-You need to work in the `src` folder, where all your source files should be located following a folder structure something like this:
+You need to work in the `src` folder, where all your source files should be located. The project structure looks something like this:
 ```
 fronty/
-├── fonts/
-├── img/
-│   ├── sprite/
-│   └── logo.png
-├── js/
-└── preprocessors/
-    ├── coffee/
-    │   └── app.coffee
-    ├── jade/
-    │   ├── _config/
-    │   ├── _layout/
-    │   ├── _mixins/
-    │   ├── _partials/
-    │   ├── _render/
-    │   └── index.jade
-    └── stylus/
-        ├── _config/
-        ├── _helpers/
-        ├── _layouts/
-        ├── _mixins/
-        ├── _normalize/
-        ├── fonts.styl
-        ├── ie.styl
-        └── layout.styl
+└── src/
+    ├── fonts/
+    ├── icons/
+    ├── img/
+    │   ├── sprite/
+    │   └── logo.png
+    ├── js/
+    └── preprocessors/
+        ├── coffee/
+        │   └── app.coffee
+        ├── jade/
+        │   ├── _config/
+        │   ├── _layout/
+        │   ├── _mixins/
+        │   ├── _partials/
+        │   ├── _render/
+        │   └── index.jade
+        └── stylus/
+            ├── _config/
+            ├── _helpers/
+            ├── _layouts/
+            ├── _mixins/
+            ├── _normalize/
+            ├── fonts.styl
+            ├── ie.styl
+            └── layout.styl
 ```
-* `fonts` : Add font files in this folder `(*.eot,*.ttf, *.woff, *.svg)`.
+* `fonts` : Here you can add font files grouped in folders according to the font-family `(*.eot,*.ttf, *.woff, *.svg)`.
 * `img` : You have to add all the images that will be used in your project here, a copy of the optimized images will then be exported to the `dist/img` folder.
     * `sprite` : Here you can add separated image files that will be part of your sprite which will be created  automatically from here with a gulp task. These images need to be in `.png` format.
-* `js` : If you want you can add `*.js` files that will be concatenated to the main script `dis/js/app.js` with a gulp task.
+* `js` : If you want you can add `*.js` files that will be concatenated at the beginning of the main script `dist/js/app.js` with a gulp task.
 * `preprocessors`
     * `coffee` : This folder contains a file named `app.coffee` which has a basic module structure to get you started and should contain all your application logic.
     * `jade` : This folder contains all your `.jade` files separated in nice individual folders for future project scalability and better debugging. The `index.jade` file is your starting point.
@@ -75,7 +77,7 @@ fronty/
 
 
 ## Gulp tasks 
-In terminal make sure you are in the `fronty/` directory.
+In the terminal make sure you are in the `fronty/` directory.
 
 
 ### Compile Stylus
@@ -108,6 +110,19 @@ In order to use the mixin that this task creates you have to follow this structu
 	sprite($ico1)
 ```
 Which will render to css. Notice that the `$ico1` variable name has to be the same as your image file name `src/img/sprite/img1.png`.
+
+## Generate icons
+
+```
+    gulp icons
+```
+This task will generate the `iconFont` font for the icons that you can place in the `src/icons/` with the `*.svg` extension.
+
+## Generate font styles
+```
+    gulp fonts
+```
+This task will generate the styles for the fonts placed in the `src/fonts/` folder.
 
 ### Minimize images
 ```
