@@ -1,4 +1,16 @@
-"globals": {
-    "$": false,
-    "jQuery": false
-  }
+{
+  "passfail": false,  /* Stop on first error. */
+  "undef": true,
+  "unused": true,
+  "asi" : true,
+  "predef": [
+    "$" ,
+    "jQuery",
+    "console"
+  ],
+  "eqeqeq" : false,
+  "eqnull" : false,
+  "loopfunc" : false,
+  "smarttabs" : false,
+  "-W041": false
+}

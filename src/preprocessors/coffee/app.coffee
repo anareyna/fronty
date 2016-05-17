@@ -1,23 +1,30 @@
 App = (->
 	dom = {}
 	st =
-		body: "h1"
+		body: "body"
+
 	catchDom = ->
 		dom.body = $(st.body)
+		return
 
 	subscribeEvents = ->
-		dom.body.on "click", events.myFunction
+		dom.body.on "click", events.myEvent
 		return
 
 	events =
-		myFunction: ->
-			dom.body.css 'background', 'red'
+		myEvent: ->
+			dom.body.css "background-color", "deeppink"
 			return
 
-	functions = {}
+	functions =
+		myFunction: ->
+			console.log 'test'
+			return
+
 	initialize = ->
 		catchDom()
 		subscribeEvents()
+		return
 
 	init: initialize
 )()

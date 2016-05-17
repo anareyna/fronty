@@ -7,19 +7,15 @@
 To get started, make sure you have [node.js](http://nodejs.org/) installed.
 Open the terminal and change directory to `fronty/`.
 
-* Install npm dependencies. 
+* Install npm dependencies.
     ```
     npm install
     ```
-* Install bower dependencies. 
-    ```
-    bower install
-    ```
-* Run all the default gulp tasks. 
+* Run all the default gulp tasks.
     ```
     gulp
     ```
-* Open project in browser and watch for file changes. 
+* Open project in browser and watch for file changes.
     ```
     gulp watch
     ```
@@ -76,7 +72,7 @@ fronty/
     	* `_normalize` : The `normalize.styl` version created by [@necolas](https://github.com/necolas/normalize.css/).
 
 
-## Gulp tasks 
+## Gulp tasks
 In the terminal make sure you are in the `fronty/` directory.
 
 
@@ -104,7 +100,7 @@ This will compile all the `.coffee` files in `src/preprocessors/coffee` and conc
 	gulp sprite
 ```
 This task will create the `sprite.png` located at `dist/img/` which will also be the optimized (minified) image version.
-In order to use the mixin that this task creates you have to follow this structure in any of your `.styl` files. 
+In order to use the mixin that this task creates you have to follow this structure in any of your `.styl` files.
 ```
 .ico
 	sprite($ico1)
@@ -134,7 +130,7 @@ This task will create a copy of all your image files located in `src/img/` and c
 ## Resources
 * [Coffescript](http://coffeescript.org/)
 * [Jade](http://jade-lang.com/)
-* [Stylus](https://learnboost.github.io/stylus/) also uses [Jeet (Grid System)](http://jeet.gs/) and [Rupture (Media queries)](https://github.com/jenius/rupture) 
-* [Pleeease](http://pleeease.io/) (comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more...) 
+* [Stylus](https://learnboost.github.io/stylus/) also uses [Jeet (Grid System)](http://jeet.gs/) and [Rupture (Media queries)](https://github.com/jenius/rupture)
+* [Pleeease](http://pleeease.io/) (comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more...)
 * [Gulp](http://gulpjs.com/)
 * [Bower](http://bower.io)
