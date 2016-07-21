@@ -1,3 +1,3 @@
 # Frosty
 
-Folder structure for atomic design project inspired by Brad Frost.
+Folder structure for atomic design projects inspired by Brad Frost. (WIP)
