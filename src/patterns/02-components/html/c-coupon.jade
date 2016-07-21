@@ -1,0 +1,10 @@
+include ../01-elements/
+
+mixin c-coupon(text)
+	.c-coupon&attributes(attributes)
+		+e-img(src="http://placehold.it/400/200")
+		.c-coupon__body
+			+e-paragraph('Lorem ipsum')
+			+e-link('Click aqui')(class="e-link--color")
+			+e-button('teoo')(name="btn", class="another")
+			a.c-coupon__discount -60%

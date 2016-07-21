@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var jade = require('gulp-jade');
 var stylus = require('gulp-stylus');
+var postcss = require('gulp-postcss');
+var poststylus = require('poststylus');
 var jeet = require('jeet');
 var rupture = require('rupture');
 var coffee = require('gulp-coffee');
@@ -26,8 +28,9 @@ var config = {
 
 var path = {
 	frontend: 'src/',
+	//src_html: 'src/patterns/04-pages/',
 	src_html: 'src/preprocessors/jade/',
-	src_css: 'src/preprocessors/stylus/',
+	src_css: 'src/patterns/',
 	src_js: 'src/preprocessors/coffee/',
 	jsSrc: 'src/js/**/*.js',
 	dist_html: './dist/',
@@ -46,7 +49,8 @@ gulp.task('jade', function() {
 		'!' + path.src_html + '_**/*.jade',
 		'!' + path.src_html + '/**/_**/*.jade',
 		'!' + path.src_html + '/**/_*.jade'
-		]).pipe(plumberNotifier())
+		])
+		.pipe(plumberNotifier())
 		.pipe(jade({
 			pretty : !config.is_minified
 		}))
@@ -64,7 +68,8 @@ gulp.task('stylus', function () {
 	.pipe(stylus({
 		use: [
 			jeet(),
-			rupture()
+			rupture(),
+			poststylus(['lost'])
 		]
 	}))
 	.pipe(pleeease({minifier:config.is_minified}))
@@ -194,5 +199,5 @@ gulp.task('bower', function() {
 });
 
 gulp.task('default', function(cb) {
-	runSequence('bower', 'jade', 'js', 'stylus', 'sprite', 'imagemin', 'fonts', 'icons', cb);
+	runSequence('jade', 'stylus', cb);
 });

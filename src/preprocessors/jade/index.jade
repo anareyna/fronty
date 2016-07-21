@@ -1,26 +1,115 @@
-extends _layout/layout.jade
-//- index
+mixin book(name, price)
+  li #{name} for #{price} €
 
-block content
-	.container
-		p You can now start developing with:
-		ul
-			li
-				a(href="http://coffeescript.org/", target="_blank") Coffescript
-			li
-				a(href="http://jade-lang.com/", target="_blank") Jade
-			li
-				a(href="https://learnboost.github.io/stylus/", target="_blank") Stylus 
-				|  also uses 
-				a(href="http://jeet.gs/", target="_blank") Jeet (Grid System)
-				|  and 
-				a(href="https://github.com/jenius/rupture", target="_blank") Rupture (Media queries)
-			li 
-				a(href="http://pleeease.io/", target="_blank") Pleeease
-				|  comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more... 
-			li 
-				a(href="http://gulpjs.com/", target="_blank") Gulp 
-				| tasks to generate sprites, optimize images, jshint, etc. See gulpfile.js at the root of this project for more information. 
 
-		p For full documentation visit the 
-			a(href="https://github.com/anareyna/fronty", target="_blank") Fronty repository.
+ul#books
+  +book("Book A", 12.99)
+  +book("Book B", 5.99) 
+
+
+mixin repeat(limit)
+  - for (var i = 1; i <= limit; i++) {
+    block
+  - }
+
++repeat(5)
+  p texto
+
+
+mixin e-btn(txt)
+  button.test #{txt}
+    block
+
++e-btn('dsfvd')
+  i.icon-search icon-search
+  +repeat(2)
+    b repeating
+
+//- sample
+
+mixin e-logo
+  img.e-logo(src="https://cds.ofertop.g3c.pe/o/img/logo_ofertop.png")&attributes(attributes)
+
++e-logo(src="http://placehold.it/100x200", class="modifier")
+
+//--------------------------------------------------
+
+mixin e-img(width, height)
+  - width = width || 100
+  - height = height || 100
+  img.e-img(src="http://placehold.it/#{width}x#{height}")&attributes(attributes)
+
++e-img(150,200)
+
+//--------------------------------------------------
+
+
+mixin e-input-text(placeholder, value)
+  - placeholder = placeholder || ""
+  - value = value || ""
+
+  input.e-input-text(type="text", placeholder="#{placeholder}", value="#{value}")&attributes(attributes)
+
+
++e-input-text("buscar...")
+
+//--------------------------------------------------
+
+mixin e-icon(name)
+  i.e-icon(class="e-icon--#{name}")&attributes(attributes)
+
++e-icon('search')
+
+//--------------------------------------------------
+
+
+mixin e-button(text)
+  button.e-button(type="button")&attributes(attributes)= text
+    block
+
++e-button('boton')(class="clase1 dos", title="title")
+
+//--------------------------------------------------
+
+mixin e-link-button(href, text)
+  - href = href || "javascript:;"
+  - text = text || ""
+
+  a.e-link-button(href="#{href}", title="#{text}")&attributes(attributes)= text
+    block
+
++e-link-button
+  +e-icon('triangle')
+
+
+//--------------------------------------------------
+mixin c-search-form
+  .c-search-form
+    +e-input-text("Ingresa lo que estás buscando")
+    +e-button(class="e-button--disabled")
+      +e-icon('search')
+
+//--------------------------------------------------
+
+mixin l-col(value)
+  .l-col()
+//--------------------------------------------------
+
+mixin l-header
+  .l-header
+    .l-grid
+      .l-grid__one-quarter
+        +e-logo
+      .l-grid__two-quarters
+        +c-search-form
+      .l-grid__one-quarter
+        +c-navbar
+
+
+//--------------------------------------------------
+//--------------------------------------------------
+//--------------------------------------------------
+//--------------------------------------------------
+//--------------------------------------------------
+//--------------------------------------------------
+
