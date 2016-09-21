@@ -1,9 +1,11 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var jade = require('gulp-jade');
+var pug = require('gulp-pug');
 var stylus = require('gulp-stylus');
 var jeet = require('jeet');
 var rupture = require('rupture');
+var poststylus = require('poststylus');
+var lost = require('lost');
 var coffee = require('gulp-coffee');
 var spritesmith = require("gulp.spritesmith");
 var imagemin = require('gulp-imagemin');
@@ -26,7 +28,7 @@ var config = {
 
 var path = {
 	frontend: 'src/',
-	src_html: 'src/preprocessors/jade/',
+	src_html: 'src/preprocessors/pug/',
 	src_css: 'src/preprocessors/stylus/',
 	src_js: 'src/preprocessors/coffee/',
 	jsSrc: 'src/js/**/*.js',
@@ -39,21 +41,23 @@ var path = {
 	js_hint: ['./dist/js/**/*.js', '!./dist/js/libs/**/*.js']
 };
 
-gulp.task('jade', function() {
+gulp.task('pug', function() {
 	gulp.src([
-		path.src_html + '*.jade',
-		path.src_html + '**/*.jade',
-		'!' + path.src_html + '_**/*.jade',
-		'!' + path.src_html + '/**/_**/*.jade',
-		'!' + path.src_html + '/**/_*.jade'
+		path.src_html + '*.pug',
+		path.src_html + '**/*.pug',
+		'!' + path.src_html + '_**/*.pug',
+		'!' + path.src_html + '/**/_**/*.pug',
+		'!' + path.src_html + '/**/_*.pug'
 		]).pipe(plumberNotifier())
-		.pipe(jade({
+		.pipe(pug({
 			pretty : !config.is_minified
 		}))
 		.pipe(gulp.dest(path.dist_html));
 });
 
 gulp.task('stylus', function () {
+	console.log("path.src_css", path.src_css);
+	console.log("path.dist_css", path.dist_css);
 	return gulp.src([
 		path.src_css + '**/*.styl',
 		'!' + path.src_css + '**/**/_**/*.styl',
@@ -64,7 +68,7 @@ gulp.task('stylus', function () {
 	.pipe(stylus({
 		use: [
 			jeet(),
-			rupture()
+			poststylus(['lost'])
 		]
 	}))
 	.pipe(pleeease({minifier:config.is_minified}))
@@ -112,10 +116,10 @@ gulp.task('imagemin', function () {
 
 
  gulp.task('jshint', function() {
-   return gulp.src(path.js_hint)
-     .pipe(jshint('.jshintrc'))
-     .pipe(jshint.reporter('jshint-stylish'))
-     .pipe(jshint.reporter('fail'));
+	 return gulp.src(path.js_hint)
+		 .pipe(jshint('.jshintrc'))
+		 .pipe(jshint.reporter('jshint-stylish'))
+		 .pipe(jshint.reporter('fail'));
  });
 
 gulp.task('concatjs', function() {
@@ -157,7 +161,7 @@ gulp.task('icons:compile', function(cb){
 gulp.task('copy:fonts', function() {
 	return gulp.src(
 			path.frontend + 'fonts/**/*.*',
-    		{ base : path.frontend })
+				{ base : path.frontend })
 		.pipe(gulp.dest(path.dist_html));
 });
 
@@ -176,7 +180,7 @@ gulp.task('browserSync', function(){
 
 gulp.task('watch', function() {
 	gulp.start('browserSync');
-	gulp.watch([path.src_html + '**/*.jade'], ['jade', browserSync.reload]);
+	gulp.watch([path.src_html + '**/*.pug'], ['pug', browserSync.reload]);
 	gulp.watch([path.src_css + '**/*.styl'], ['stylus', browserSync.reload]);
 	gulp.watch([path.src_js + '**/*.coffee'], ['js', browserSync.reload]);
 });
@@ -190,9 +194,9 @@ gulp.task('icons', function(cb){
 });
 
 gulp.task('bower', function() {
-  return bower();
+	return bower();
 });
 
 gulp.task('default', function(cb) {
-	runSequence('bower', 'jade', 'js', 'stylus', 'sprite', 'imagemin', 'fonts', 'icons', cb);
+	runSequence('bower', 'pug', 'js', 'stylus', 'sprite', 'imagemin', 'fonts', 'icons', cb);
 });

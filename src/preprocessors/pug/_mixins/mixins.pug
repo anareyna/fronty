@@ -1,0 +1,9 @@
+//-
+		Mixins
+
+include ie
+
+mixin repeat(limit)
+	- for (var i = 1; i <= limit; i++) {
+		block
+	- }

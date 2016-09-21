@@ -1,0 +1,26 @@
+extends _templates/master
+//- index
+
+block content
+	.container
+		p You can now start developing with:
+		ul
+			li
+				a(href="http://coffeescript.org/", target="_blank") Coffescript
+			li
+				a(href="http://pugjs.org/", target="_blank") Pug
+			li
+				a(href="https://learnboost.github.io/stylus/", target="_blank") Stylus
+				|  also uses&nbsp;
+				a(href="https://github.com/peterramsing/lost", target="_blank") Lost (Grid System)
+				|  and&nbsp;
+				a(href="https://github.com/jenius/rupture", target="_blank") Rupture (Media queries)
+			li
+				a(href="http://pleeease.io/", target="_blank") Pleeease
+				|  comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more...
+			li
+				a(href="http://gulpjs.com/", target="_blank") Gulp
+				| &nbsp;tasks to generate sprites, optimize images, jshint, etc. See gulpfile.js at the root of this project for more information.
+
+		p For full documentation visit the&nbsp;
+			a(href="https://github.com/anareyna/fronty", target="_blank") Fronty repository.
