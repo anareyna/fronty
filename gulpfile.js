@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var pug = require('gulp-pug');
 var stylus = require('gulp-stylus');
-var jeet = require('jeet');
 var rupture = require('rupture');
 var poststylus = require('poststylus');
 var lost = require('lost');
@@ -67,7 +66,7 @@ gulp.task('stylus', function () {
 	.pipe(plumberNotifier())
 	.pipe(stylus({
 		use: [
-			jeet(),
+			rupture(),
 			poststylus(['lost'])
 		]
 	}))
@@ -117,9 +116,10 @@ gulp.task('imagemin', function () {
 
  gulp.task('jshint', function() {
 	 return gulp.src(path.js_hint)
-		 .pipe(jshint('.jshintrc'))
-		 .pipe(jshint.reporter('jshint-stylish'))
-		 .pipe(jshint.reporter('fail'));
+		.pipe(jshint('.jshintrc'))
+		.pipe(plumberNotifier())
+		.pipe(jshint.reporter('jshint-stylish'))
+		.pipe(jshint.reporter('fail'));
  });
 
 gulp.task('concatjs', function() {

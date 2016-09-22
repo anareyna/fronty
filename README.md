@@ -31,17 +31,15 @@ fronty/
     ├── img/
     │   ├── sprite/
     │   └── logo.png
-    ├── js/
     └── preprocessors/
         ├── coffee/
         │   └── app.coffee
-        ├── jade/
+        ├── pug/
         │   ├── _config/
-        │   ├── _layout/
         │   ├── _mixins/
         │   ├── _partials/
-        │   ├── _render/
-        │   └── index.jade
+        │   ├── _templates/
+        │   └── master.pug
         └── stylus/
             ├── _config/
             ├── _helpers/
@@ -55,15 +53,13 @@ fronty/
 * `fonts` : Here you can add font files grouped in folders according to the font-family `(*.eot,*.ttf, *.woff, *.svg)`.
 * `img` : You have to add all the images that will be used in your project here, a copy of the optimized images will then be exported to the `dist/img` folder.
     * `sprite` : Here you can add separated image files that will be part of your sprite which will be created  automatically from here with a gulp task. These images need to be in `.png` format.
-* `js` : If you want you can add `*.js` files that will be concatenated at the beginning of the main script `dist/js/app.js` with a gulp task.
 * `preprocessors`
     * `coffee` : This folder contains a file named `app.coffee` which has a basic module structure to get you started and should contain all your application logic.
-    * `jade` : This folder contains all your `.jade` files separated in nice individual folders for future project scalability and better debugging. The `index.jade` file is your starting point.
-        * `_config` : Place all your configurations and jade variables here.
-	    * `_mixins` : Add mixins in the `mixins.jade` file.
-	    * `_partials` : Contains scripts placed at the `head` and `footer`.
-	    * `_render` : Contains the structure for the `head`, `header` and `footer` sections of your application.
-        * `_layout` : File structure that concatenates all the other `*.jade` files hence it generates the layout.
+    * `pug` : This folder contains all your `.pug` files separated in nice individual folders for future project scalability and better debugging. The `index.pug` file is your starting point.
+        * `_config` : Place all your configurations and pug variables here.
+	    * `_mixins` : Add mixins in the `mixins.pug` file.
+	    * `_partials` : Contains `header`, `footer`, `head`, `header_scripts` and `footer_scripts` sections.
+        * `_templates` : File structure that concatenates all the other `*.pug` files hence it generates the master file.
     * `stylus` : This folder contains all the `.styl` files organized in subfolders for better file organization and code scalability.
     	* `_config` : Place all your configurations and stylus variables here.
     	* `_helpers` : A collection of files containing the main elements that make your website.
@@ -82,11 +78,11 @@ In the terminal make sure you are in the `fronty/` directory.
 ```
 This will compile all the `.styl` files in `src/preprocessors/stylus` and concatenate them to a single file located in `dist/css/layout.css`, except for `fonts.styl` and `ie.styl` which will be compiled to separared css files `dist/css/fonts.css` and `dist/css/ie.css`.
 
-### Compile Jade
+### Compile pug
 ```
-	gulp jade
+	gulp pug
 ```
-This will compile to html all the `.jade` files in `src/preprocessors/jade` and place them into the folder located in `dist/`.
+This will compile to html all the `.pug` files in `src/preprocessors/pug` and place them into the folder located in `dist/`.
 
 ### Compile Coffee
 ```
@@ -129,8 +125,8 @@ This task will create a copy of all your image files located in `src/img/` and c
 
 ## Resources
 * [Coffescript](http://coffeescript.org/)
-* [Jade](http://jade-lang.com/)
-* [Stylus](https://learnboost.github.io/stylus/) also uses [Jeet (Grid System)](http://jeet.gs/) and [Rupture (Media queries)](https://github.com/jenius/rupture)
+* [Pug](http://pugjs.org/)
+* [Stylus](https://learnboost.github.io/stylus/) also uses [Lost (Grid System)](https://github.com/peterramsing/lost) and [Rupture (Media queries)](https://github.com/jenius/rupture)
 * [Pleeease](http://pleeease.io/) (comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more...)
 * [Gulp](http://gulpjs.com/)
 * [Bower](http://bower.io)
