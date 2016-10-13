@@ -28,7 +28,8 @@ var config = {
 
 var path = {
 
-	src_html: 'preprocessors/pre_html/',
+	// src_html: 'preprocessors/pre_html/',
+	src_html: 'patterns/_04-pages/html/',
 	src_css: 'patterns/',
 	src_js: 'preprocessors/pre_js/',
   src_img: 'assets/img/',

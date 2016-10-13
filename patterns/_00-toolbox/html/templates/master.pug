@@ -1,0 +1,11 @@
+include ../config/page
+doctype
+html(lang="es")
+	include ../partials/head
+	include ../partials/head_scripts
+	include ../mixins/mixins
+	body
+		include ../../../_03-layouts/html/l-header
+		block content
+		include ../../../_03-layouts/html/l-footer
+		include ../partials/footer_scripts
