@@ -1,0 +1,35 @@
+head
+
+	title!= page.title
+
+	meta(charset = page.charset)
+	meta(http-equiv="X-UA-Compatible", content="IE=edge")
+	meta(name="description", content != page.description)
+	meta(name="keywords", content != page.keywords)
+	meta(name="viewport", content != page.viewport)
+	meta(name='title', content != page.title)
+	meta(name='url', content != page.url.base)
+	meta(name='author', content != page.author)
+	meta(name='robots', content != page.robots)
+	meta(property='og:description', content != page.og.description)
+	meta(property='og:image', content != page.og.image)
+	meta(property='og:image:height', content != page.og.image_height)
+	meta(property='og:image:type', content != page.og.image_type)
+	meta(property='og:image:width', content != page.og.image_width)
+	meta(property='og:title', content != page.og.title)
+	meta(property='og:type', content != page.og.type)
+	meta(property='og:url', content != page.og.url)
+
+	block meta
+
+	link(href!=`${page.favicon}${page.version}`, rel='icon', type='image/vnd.microsoft.icon')
+	link(href!=`${page.favicon}${page.version}`, rel='shortcut icon', type='image/vnd.microsoft.icon')
+	link(href!=`${page.favicon}${page.version}`, rel='shortcut icon', type='image/x-icon')
+	link(href!=`${page.favicon}${page.version}`, rel='image_src', type='image/jpeg')
+
+	link(rel="stylesheet", href!=`${page.url.static}css/styles.css${page.version}`)
+
+
+	include head_scripts
+
+	block styles

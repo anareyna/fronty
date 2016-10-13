@@ -1,0 +1,72 @@
+@import	'variables';
+
+// naming based on suitcss utilities classes
+
+.u-hidden {
+	display: none !important
+}
+
+.u-block {
+	display: block !important
+}
+
+.u-textCenter {
+	text-align: center !important
+}
+
+.u-textLeft {
+	text-align: left !important
+}
+
+.u-textRight {
+	text-align: right !important
+}
+
+.u-floatLeft {
+	float: left !important
+}
+
+.u-floatRight {
+	float: right !important
+}
+
+.u-cf {
+	lost-utility: clearfix
+}
+
+.u-normalWeight {
+	font-weight: normal
+}
+
+.u-centerBlock {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+.u-mt5 {
+	margin-top: 5px !important
+}
+.u-mt10 {
+	margin-top: 10px !important
+}
+.u-mt20 {
+	margin-top: 20px !important
+}
+.u-mt30 {
+	margin-top: 30px !important
+}
+.u-mb20 {
+	margin-bottom:20px !important
+}
+.u-mb30 {
+	margin-bottom: 30px !important
+}
+
+.u-mt60 {
+	margin-top: 60px !important
+}
+
+.u-mb60 {
+	margin-bottom: 60px !important
+}
+

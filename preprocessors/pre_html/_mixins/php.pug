@@ -1,0 +1,28 @@
+//---------------- All integration PHP ----------------//
+
+mixin foreach(statement)
+		| <?php foreach(!{statement}): ?>
+		block
+		| <?php endforeach;?>
+
+mixin for(statement)
+		| <?php for(!{statement}): ?>
+		block
+		| <?php endfor;?>
+
+mixin if(statement)
+		| <?php if(!{statement}): ?>
+		block
+		| <?php endif;?>
+
+mixin else(statement)
+		| <?php else: ?>
+		block
+
+mixin elseif(statement)
+		| <?php elseif(!{statement}): ?>
+		block
+
+mixin render(data)
+		+if(data.isTrue)
+				p data.text

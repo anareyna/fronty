@@ -1,0 +1,6 @@
+header.l-header
+  .l-container
+    a.l-header__logo(href!=`${page.url.base}`)
+      img.l-header__logo-img(src!=`${page.url.image}logo.svg`)
+    .l-header__nav
+      include ../_components/c-nav
