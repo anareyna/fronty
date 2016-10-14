@@ -2,22 +2,12 @@
 @import 'breakpoint';
 @import 'breakpoint-slicer';
 
+
 body {
-
-	@include at('xs') {
-		background: indigo;
-	}
-	@include at('s') {
-		background: yellow;
-	}
-	@include at('m') {
-		background: blue;
-	}
-	@include at('l') {
-		background: green;
-	}
-	@include at('xl') {
-		background: white;
-	}
-
+    @include mobile {
+        background: indianred;
+    }
+    @include tablet {
+        background: tomato;
+    }
 }

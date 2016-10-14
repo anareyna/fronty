@@ -1,0 +1,13 @@
+// breakpoint slicer custom mixins similar to Rupture
+
+@mixin mobile() {
+    @include at('xs') {
+        @content
+    }
+}
+
+@mixin tablet() {
+    @include between('s', 'l') {
+        @content
+    }
+}
