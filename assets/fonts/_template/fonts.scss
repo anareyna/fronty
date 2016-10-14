@@ -1,0 +1,21 @@
+/*
+* Font Styles
+* @module fonts
+**/
+
+
+$font_path  : '../fonts/';
+
+
+<% _.each(dirList, function(fontName) { %>
+@font-face {
+	font-family: "<%= fontName %>";
+	src: url($font_path + "<%=fontName%>/<%=fontName%>-webfont.eot");
+	src: url($font_path + "<%=fontName%>/<%=fontName%>-webfont.eot?#iefix") format("embedded-opentype"), \
+		url($font_path + "<%=fontName%>/<%=fontName%>-webfont.woff") format("woff"), \
+		url($font_path + "<%=fontName%>/<%=fontName%>-webfont.ttf") format("truetype"), \
+		url($font_path + "<%=fontName%>/<%=fontName%>-webfont.svg#<%=fontName%>") format("svg");
+	font-style: normal;
+	font-weight: normal;
+}
+<% }); %>

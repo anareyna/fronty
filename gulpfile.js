@@ -35,6 +35,7 @@ var path = {
 	src_css: 'patterns/',
 	src_js: 'preprocessors/pre_js/',
 	src_img: 'assets/img/',
+	src_fonts: 'assets/fonts/',
 	src_sprite: 'assets/img/sprite/*.png',
 
 	dist: './dist/',
@@ -130,6 +131,45 @@ gulp.task('sprite', function () {
 	spriteData.css.pipe(gulp.dest(path.src_css + '_00-toolbox/css/'));
 });
 
+
+gulp.task('fonts:compile', function(cb){
+	var dirList = []
+	fs.readdirSync(path.src_fonts).forEach(function(file){
+		if(/^[^_]*$/g.test(file)){
+			dirList.push(file)
+		}
+	});
+	return gulp.src(path.src_fonts + '_template/fonts.scss')
+		.pipe(consolidate('lodash', { dirList: dirList }))
+		.pipe(gulp.dest(path.src_css));
+});
+
+gulp.task('icons:compile', function(cb){
+	return gulp.src(path.frontend + '/icons/*.svg')
+		.pipe(iconfont({
+			normalize: true,
+			fontName: 'iconFonts-webfont',
+			appendUnicode: false
+		}))
+		.on('codepoints', function(codepoints, options) {
+			gulp.src(path.frontend + '/icons/_template/icons.styl') //Template
+			.pipe(consolidate('lodash', {
+				glyphs: codepoints,
+				fontName: 'iconFonts'
+			}))
+			.pipe(gulp.dest(path.src_css + '/_helpers'));
+		})
+		.pipe(gulp.dest(path.frontend + '/fonts/iconFonts'));
+});
+
+gulp.task('fonts:copy', function() {
+	return gulp.src(
+			path.frontend + 'fonts/**/*.*',
+				{ base : path.frontend })
+		.pipe(gulp.dest(path.dist_html));
+});
+
+
 gulp.task('bower', function() {
 	return bower();
 });
@@ -145,11 +185,14 @@ gulp.task('browserSync', function(){
 
 gulp.task('watch', function() {
 	gulp.start('browserSync');
-	gulp.watch([path.src_css + '**/*.scss'], ['css', browserSync.reload]);
+	gulp.watch([path.src_css + '**/*.scss', path.src_css + '**/**/*.scss'], ['css', browserSync.reload]);
 	gulp.watch([path.src_html + '**/*.pug'], ['html', browserSync.reload]);
 	gulp.watch([path.src_js + '**/*.js'], ['js', browserSync.reload]);
 });
 
+gulp.task('fonts', function(cb){
+	runSequence('fonts:compile', 'css', 'fonts:copy', cb)
+});
 gulp.task('default', function(cb) {
 	runSequence('bower', 'html', 'css', 'js', cb);
 });

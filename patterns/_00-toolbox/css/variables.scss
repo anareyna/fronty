@@ -5,16 +5,14 @@ $slicer-breakpoint-names:  'xs' 's' 'm' 'l' 'xl';
 
 /* color scheme */
 $brand_color : #2232c3;
+$secondary_color : tomato;
 $font_color : black;
 
-/**/
 $container_width : 1140px;
-$img_path       : '../img/';
 
-/**/
 $border_radius : 5px;
+$transition: 0.3s all ease-in;
+$input_height: 2.5rem;
 
-/* fonts */
 $family1:  'Lato', 'arial', 'sans-serif';
-
-$font_path  : '../fonts/';
+$base_font: 16px;

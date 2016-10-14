@@ -3,6 +3,11 @@
 *, *:before, *:after {
 	box-sizing: border-box;
 }
+
+html {
+	font-size: $base_font;
+}
+
 ul {
 	list-style: none;
 	margin: 0;
