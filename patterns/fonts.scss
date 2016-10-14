@@ -1,0 +1,20 @@
+/*
+* Font Styles
+* @module fonts
+**/
+
+
+$font_path  : '../fonts/';
+
+
+
+@font-face {
+	font-family: "iconFonts";
+	src: url($font_path + "iconFonts/iconFonts-webfont.eot");
+	src: url($font_path + "iconFonts/iconFonts-webfont.eot?#iefix") format("embedded-opentype"), \
+		url($font_path + "iconFonts/iconFonts-webfont.woff") format("woff"), \
+		url($font_path + "iconFonts/iconFonts-webfont.ttf") format("truetype"), \
+		url($font_path + "iconFonts/iconFonts-webfont.svg#iconFonts") format("svg");
+	font-style: normal;
+	font-weight: normal;
+}

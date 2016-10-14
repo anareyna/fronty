@@ -1,6 +1,6 @@
 {
-  "name": "Frosty",
-  "description": "Basic structure for small development projects.",
+  "name": "Atomic Starter",
+  "description": "Structure for development projects inspired in Atomic Design.",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Ana Reyna @anareyna",
@@ -20,7 +20,6 @@
     "gulp-imagemin": "2.3.0",
     "gulp-jshint": "1.11.2",
     "gulp-lodash": "0.1.1",
-    "gulp-pleeease": "1.2.0",
     "gulp-plumber-notifier": "0.0.3",
     "gulp-postcss": "^6.1.1",
     "gulp-pug": "3.0.4",

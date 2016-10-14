@@ -11,7 +11,6 @@ var browserSync = require('browser-sync');
 var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
-var pleeease = require('gulp-pleeease');
 var iconfont = require('gulp-iconfont');
 var consolidate = require("gulp-consolidate");
 var plumberNotifier = require('gulp-plumber-notifier');
@@ -36,6 +35,7 @@ var path = {
 	src_js: 'preprocessors/pre_js/',
 	src_img: 'assets/img/',
 	src_fonts: 'assets/fonts/',
+	src_icons: 'assets/icons/',
 	src_sprite: 'assets/img/sprite/*.png',
 
 	dist: './dist/',
@@ -145,21 +145,21 @@ gulp.task('fonts:compile', function(cb){
 });
 
 gulp.task('icons:compile', function(cb){
-	return gulp.src(path.frontend + '/icons/*.svg')
+	return gulp.src(path.src_icons + '*.svg')
 		.pipe(iconfont({
 			normalize: true,
 			fontName: 'iconFonts-webfont',
 			appendUnicode: false
 		}))
 		.on('codepoints', function(codepoints, options) {
-			gulp.src(path.frontend + '/icons/_template/icons.styl') //Template
+			gulp.src(path.src_icons + '_template/icons.scss') //Template
 			.pipe(consolidate('lodash', {
 				glyphs: codepoints,
 				fontName: 'iconFonts'
 			}))
-			.pipe(gulp.dest(path.src_css + '/_helpers'));
+			.pipe(gulp.dest(path.src_css + '_00-toolbox/css'));
 		})
-		.pipe(gulp.dest(path.frontend + '/fonts/iconFonts'));
+		.pipe(gulp.dest(path.src_fonts + 'iconFonts'));
 });
 
 gulp.task('fonts:copy', function() {
@@ -192,6 +192,9 @@ gulp.task('watch', function() {
 
 gulp.task('fonts', function(cb){
 	runSequence('fonts:compile', 'css', 'fonts:copy', cb)
+});
+gulp.task('icons', function(cb){
+	runSequence('icons:compile', 'fonts:compile', 'css', 'fonts:copy', cb)
 });
 gulp.task('default', function(cb) {
 	runSequence('bower', 'html', 'css', 'js', cb);
