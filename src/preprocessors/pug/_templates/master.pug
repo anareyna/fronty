@@ -8,7 +8,10 @@ html(lang="#{page.lang}", xmlns:ogdd="http://ogp.me/ns#" xmlns:fb="http://ogp.me
 		body
 				include ../_partials/header
 				// end header
-				block content
+				block content				
+				+repeat(2)
+					p aa
 				// end footer
 				include ../_partials/footer
 				include ../_partials/footer_scripts
+
