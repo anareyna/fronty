@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var pug = require('gulp-pug');
 var stylus = require('gulp-stylus');
+//var newer = require('gulp-newer');
 var rupture = require('rupture');
 var poststylus = require('poststylus');
 var lost = require('lost');
@@ -20,6 +21,10 @@ var consolidate = require("gulp-consolidate");
 var plumberNotifier = require('gulp-plumber-notifier');
 var bower = require('gulp-bower');
 var fs = require('fs');
+//var gulpPugInheritance = require('gulp-pug-inheritance')
+var pugInheritance = require('pug-inheritance');
+var through2 = require('through2');
+
 
 var config = {
 	is_minified: false
@@ -27,7 +32,7 @@ var config = {
 
 var path = {
 	frontend: 'src/',
-	src_html: 'src/preprocessors/pug/',
+	src_html: '/Users/ani/Projects/fronty/src/preprocessors/pug/',
 	src_css: 'src/preprocessors/stylus/',
 	src_js: 'src/preprocessors/coffee/',
 	jsSrc: 'src/js/**/*.js',
@@ -41,16 +46,35 @@ var path = {
 };
 
 gulp.task('pug', function() {
-	gulp.src([
-		path.src_html + '*.pug',
-		path.src_html + '**/*.pug',
-		'!' + path.src_html + '_**/*.pug',
-		'!' + path.src_html + '/**/_**/*.pug',
-		'!' + path.src_html + '/**/_*.pug'
-		]).pipe(plumberNotifier())
-		.pipe(pug({
-			pretty : !config.is_minified
-		}))
+	gulp.src('/Users/ani/Projects/fronty/src/preprocessors/pug/_mixins/mixins.pug')
+		//.pipe(plumberNotifier())
+
+
+		// .pipe(newer({
+		// 	dest: path.dist_html,
+		// 	ext: '.html'
+		// }))
+		.pipe(through2.obj(function(chunk, encoding, callback) {
+
+            // var parts = chunk.path.match(/(.*\/)_([\w-]+)\/([\w-]+\.html)$/);
+            // chunk.path = (parts)?parts[1] + parts[2] + "-" + parts[3]:chunk.path;
+            var options = { basedir: path.src_html, extension: '.pug', skip: 'node_modules'};
+	        var inheritance = new pugInheritance(chunk.path, options.basedir, options);
+	        var inheritanceFiles = inheritance.files;
+	        console.log(chunk.path);
+	        console.log(inheritance.tree)
+	        //console.log('inheritanceFiles', inheritanceFiles);
+
+            callback(null, chunk);
+        }))
+
+
+		//.pipe(gulpPugInheritance({basedir: '/src/preprocessors/pug/', skip: 'node_modules'}))
+		//.on("data", function(file){ console.log("file proccessed : " + file.path) })
+
+		// .pipe(pug({
+		// 	pretty : !config.is_minified
+		// }))
 		.pipe(gulp.dest(path.dist_html));
 });
 

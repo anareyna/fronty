@@ -29,7 +29,9 @@
     "lodash": "4.16.1",
     "lost": "7.1.0",
     "poststylus": "0.2.3",
+    "pug-inheritance": "1.3.0",
     "run-sequence": "1.2.2",
-    "rupture": "0.6.1"
+    "rupture": "0.6.1",
+    "through2": "^2.0.1"
   }
 }
