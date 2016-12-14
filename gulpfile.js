@@ -23,7 +23,7 @@ var bower = require('gulp-bower');
 var fs = require('fs');
 var filter = require('gulp-filter');
 
-//var gulpPugInheritance = require('gulp-pug-inheritance')
+var gulpPugInheritance = require('gulp-pug-inheritance')
 var pugInheritance = require('pug-inheritance');
 var through2 = require('through2');
 
@@ -48,41 +48,50 @@ var path = {
 };
 
 gulp.task('pug', function() {
-	gulp.src(path.src_html + "_mixins/mixins.pug").pipe(plumberNotifier())
-
+	gulp.src([
+		path.src_html + '*.pug',
+		path.src_html + '**/*.pug'		
+		]).pipe(plumberNotifier())
 
 		/*.pipe(newer({
 			dest: path.dist_html,
 		 	ext: '.html'
 		 }))*/
 
+
+
+		//.on("data", function(file){ console.log("file proccessed : " + file.path) })
+
 		.pipe(through2.obj(function(chunk, encoding, callback) {
-
-          // var parts = chunk.path.match(/(.*\/)_([\w-]+)\/([\w-]+\.html)$/);
-          // chunk.path = (parts)?parts[1] + parts[2] + "-" + parts[3]:chunk.path;
-          var options = { basedir: path.src_html, extension: '.pug', skip: 'node_modules'};
+        
+        var options = { basedir: path.src_html, extension: '.pug', skip: 'node_modules'};
         var inheritance = new pugInheritance(chunk.path, options.basedir, options);
-        var inheritanceFiles = inheritance.files;
-        //console.log(chunk.path);
-        //console.log(inheritance.tree)
+        var inheritanceFiles = inheritance.files;        
         console.log('inheritanceFiles', inheritanceFiles);
+/*
+	     .pipe(filter(function (file) {
+	     		//return file
+	     		//console.log(file.path)
+	        return !/\/_/.test(file.path) && !/^_/.test(file.relative);
+	      }))*/
 
-          callback(null, chunk);
+        callback(null, chunk);
+
       }))
 
-     /*.pipe(filter(function (file) {
-     		//return file
-     		//console.log(file.path)
-        return !/\/_/.test(file.path) && !/^_/.test(file.relative);
-      }))
+		//.on("data", function(file){ console.log("file proccessed out : " + file.path) })
+
         
 		//.pipe(gulpPugInheritance({basedir: '/src/preprocessors/pug/', skip: 'node_modules'}))
-		.on("data", function(file){ console.log("file proccessed : " + file.path) })
-
+		//.on("data", function(file){ console.log("file proccessed : " + file.path) })
+		.pipe(pugInheritance({basedir: path.src_html}))
+		.pipe(filter(function (file) {     	
+        return !/\/_/.test(file.path) && !/^_/.test(file.relative);
+      }))
 		.pipe(pug({
 		 	pretty : !config.is_minified
 		 }))
-		.pipe(gulp.dest(path.dist_html));*/
+		.pipe(gulp.dest(path.dist_html));
 });
 
 gulp.task('stylus', function () {

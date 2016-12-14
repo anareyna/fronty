@@ -21,6 +21,7 @@
     "gulp-pleeease": "2.0.2",
     "gulp-plumber-notifier": "0.0.3",
     "gulp-pug": "3.0.4",
+    "gulp-pug-inheritance": "^0.2.1",
     "gulp-stylus": "2.5.0",
     "gulp-uglify": "2.0.0",
     "gulp-util": "3.0.7",
