@@ -1,6 +1,6 @@
 # Dependency directory
 node_modules
-
+html.json
 # dist folder
 dist/
 
