@@ -71,6 +71,8 @@ gulp.task('pug:process', function() {
 
 	.pipe(changedInPlace.readFile())
 
+	.on("data", function(file){ console.log("file to process : " , file.path) })
+
 	.pipe(through2.obj(function(chunk, encoding, callback) {
 
 		var options = { basedir: path.src_html, extension: '.pug', skip: 'node_modules'};
@@ -95,6 +97,7 @@ gulp.task('pug:process', function() {
 
 gulp.task('pug:compile', function() {
 	_path = _path.unique()
+
 	return gulp.src(_path)
 
 	.pipe(gulpif(function(file) {
@@ -106,6 +109,9 @@ gulp.task('pug:compile', function() {
 	.pipe(filter(function (file) {     	
 		return !/\/_/.test(file.path) && !/^_/.test(file.relative);
 	}))
+
+	.on("data", function(file){ console.log("processed files  : " ,file.path) })
+
 	.pipe(pug({
 		pretty : !config.is_minified
 	}))
