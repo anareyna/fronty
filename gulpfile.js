@@ -27,6 +27,13 @@ var gulpPugInheritance = require('gulp-pug-inheritance')
 var pugInheritance = require('pug-inheritance');
 var through2 = require('through2');
 
+const changed = require('gulp-changed');
+
+var changedInPlace = require('gulp-changed-in-place');
+
+var runSequence = require('run-sequence');
+var puglint = require('gulp-pug-lint');
+var gulpif = require('gulp-if');
 
 var config = {
 	is_minified: false
@@ -45,53 +52,72 @@ var path = {
 	src_img: 'src/img/',
 	dist_img: './dist/img/',
 	js_hint: ['./dist/js/**/*.js', '!./dist/js/libs/**/*.js']
-};
 
-gulp.task('pug', function() {
-	gulp.src([
+
+};
+var _path = [];
+Array.prototype.unique=function(a){
+	return	 function(){
+		return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+		});
+
+
+
+gulp.task('pug:process', function() {
+	return gulp.src([
 		path.src_html + '*.pug',
 		path.src_html + '**/*.pug'		
-		]).pipe(plumberNotifier())
+		])
 
-		/*.pipe(newer({
-			dest: path.dist_html,
-		 	ext: '.html'
-		 }))*/
+	.pipe(changedInPlace.readFile())
+
+	.pipe(through2.obj(function(chunk, encoding, callback) {
+
+		var options = { basedir: path.src_html, extension: '.pug', skip: 'node_modules'};
+		var inheritance = new pugInheritance(chunk.path, options.basedir, options);
+		var inheritanceFiles = inheritance.files;        
+		// inheritanceFiles.shift()
+
+		if (inheritanceFiles.length >0) {
+			inheritanceFiles.forEach(function(file) {            
+				_path.push(path.src_html +  file)
+			});
+
+		}
+		else{
+			_path.push(chunk.path);
+		}
+		callback();
+	}))
+
+});
+
+
+gulp.task('pug:compile', function() {
+	_path = _path.unique()
+	return gulp.src(_path)
+
+	.pipe(gulpif(function(file) {
+		return !/_/.test(file.path)
+	}, puglint()))
+
+	.pipe(changedInPlace.writeToFile())
+	
+	.pipe(filter(function (file) {     	
+		return !/\/_/.test(file.path) && !/^_/.test(file.relative);
+	}))
+	.pipe(pug({
+		pretty : !config.is_minified
+	}))
+	.pipe(gulp.dest(path.dist_html))
+});
 
 
 
-		//.on("data", function(file){ console.log("file proccessed : " + file.path) })
-
-		.pipe(through2.obj(function(chunk, encoding, callback) {
-        
-        var options = { basedir: path.src_html, extension: '.pug', skip: 'node_modules'};
-        var inheritance = new pugInheritance(chunk.path, options.basedir, options);
-        var inheritanceFiles = inheritance.files;        
-        console.log('inheritanceFiles', inheritanceFiles);
-/*
-	     .pipe(filter(function (file) {
-	     		//return file
-	     		//console.log(file.path)
-	        return !/\/_/.test(file.path) && !/^_/.test(file.relative);
-	      }))*/
-
-        callback(null, chunk);
-
-      }))
-
-		//.on("data", function(file){ console.log("file proccessed out : " + file.path) })
-
-        
-		//.pipe(gulpPugInheritance({basedir: '/src/preprocessors/pug/', skip: 'node_modules'}))
-		//.on("data", function(file){ console.log("file proccessed : " + file.path) })
-		.pipe(pugInheritance({basedir: path.src_html}))
-		.pipe(filter(function (file) {     	
-        return !/\/_/.test(file.path) && !/^_/.test(file.relative);
-      }))
-		.pipe(pug({
-		 	pretty : !config.is_minified
-		 }))
-		.pipe(gulp.dest(path.dist_html));
+gulp.task('pug', function(cb) {
+	runSequence('pug:process',
+		'pug:compile',
+		cb);
 });
 
 gulp.task('stylus', function () {
@@ -102,12 +128,12 @@ gulp.task('stylus', function () {
 		'!' + path.src_css + '**/**/_**/*.styl',
 		'!' + path.src_css + '_**/*.styl',
 		'!' + path.src_css + '**/_*.styl'
-	])
+		])
 	.pipe(plumberNotifier())
 	.pipe(stylus({
 		use: [
-			rupture(),
-			poststylus(['lost'])
+		rupture(),
+		poststylus(['lost'])
 		]
 	}))
 	.pipe(pleeease({minifier:config.is_minified}))
@@ -119,7 +145,7 @@ gulp.task('coffee', function() {
 	return gulp.src([
 		path.src_js + '**/*.coffee',
 		'!' + path.src_js + '**/_*.coffee'
-	])
+		])
 	.pipe(plumberNotifier())
 	.pipe(coffee({bare: true}).on('error', gutil.log))
 	.pipe(uglify({
@@ -151,21 +177,21 @@ gulp.task('imagemin', function () {
 		use: [pngquant()]
 	}))
 	.pipe(gulp.dest(path.dist_img));
-	});
+});
 
 
- gulp.task('jshint', function() {
-	 return gulp.src(path.js_hint)
-		.pipe(jshint('.jshintrc'))
-		.pipe(plumberNotifier())
-		.pipe(jshint.reporter('jshint-stylish'))
-		.pipe(jshint.reporter('fail'));
- });
+gulp.task('jshint', function() {
+	return gulp.src(path.js_hint)
+	.pipe(jshint('.jshintrc'))
+	.pipe(plumberNotifier())
+	.pipe(jshint.reporter('jshint-stylish'))
+	.pipe(jshint.reporter('fail'));
+});
 
 gulp.task('concatjs', function() {
 	return gulp.src([path.jsSrc, path.dist_js + 'app.js' ])
-		.pipe(concat('app.js'))
-		.pipe(gulp.dest(path.js));
+	.pipe(concat('app.js'))
+	.pipe(gulp.dest(path.js));
 });
 
 gulp.task('fonts:compile', function(cb){
@@ -176,18 +202,18 @@ gulp.task('fonts:compile', function(cb){
 		}
 	});
 	return gulp.src(path.frontend + '/fonts/_template/fonts.styl')
-		.pipe(consolidate('lodash', { dirList: dirList }))
-		.pipe(gulp.dest(path.src_css));
+	.pipe(consolidate('lodash', { dirList: dirList }))
+	.pipe(gulp.dest(path.src_css));
 });
 
 gulp.task('icons:compile', function(cb){
 	return gulp.src(path.frontend + '/icons/*.svg')
-		.pipe(iconfont({
-			normalize: true,
-			fontName: 'iconFonts-webfont',
-			appendUnicode: false
-		}))
-		.on('codepoints', function(codepoints, options) {
+	.pipe(iconfont({
+		normalize: true,
+		fontName: 'iconFonts-webfont',
+		appendUnicode: false
+	}))
+	.on('codepoints', function(codepoints, options) {
 			gulp.src(path.frontend + '/icons/_template/icons.styl') //Template
 			.pipe(consolidate('lodash', {
 				glyphs: codepoints,
@@ -195,14 +221,14 @@ gulp.task('icons:compile', function(cb){
 			}))
 			.pipe(gulp.dest(path.src_css + '/_helpers'));
 		})
-		.pipe(gulp.dest(path.frontend + '/fonts/iconFonts'));
+	.pipe(gulp.dest(path.frontend + '/fonts/iconFonts'));
 });
 
 gulp.task('copy:fonts', function() {
 	return gulp.src(
-			path.frontend + 'fonts/**/*.*',
-				{ base : path.frontend })
-		.pipe(gulp.dest(path.dist_html));
+		path.frontend + 'fonts/**/*.*',
+		{ base : path.frontend })
+	.pipe(gulp.dest(path.dist_html));
 });
 
 gulp.task('js', function(cb) {
