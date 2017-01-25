@@ -74,13 +74,13 @@ In the terminal make sure you are in the `fronty/` directory.
 
 ### Compile Stylus
 ```
-	gulp stylus
+	gulp css
 ```
 This will compile all the `.styl` files in `src/preprocessors/stylus` and concatenate them to a single file located in `dist/css/layout.css`, except for `fonts.styl` and `ie.styl` which will be compiled to separared css files `dist/css/fonts.css` and `dist/css/ie.css`.
 
-### Compile pug
+### Compile Pug
 ```
-	gulp pug
+	gulp html
 ```
 This will compile to html all the `.pug` files in `src/preprocessors/pug` and place them into the folder located in `dist/`.
 
@@ -101,6 +101,8 @@ In order to use the mixin that this task creates you have to follow this structu
 .ico
 	sprite($ico1)
 ```
+
+
 Which will render to css. Notice that the `$ico1` variable name has to be the same as your image file name `src/img/sprite/img1.png`.
 
 ## Generate icons

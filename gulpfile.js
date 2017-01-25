@@ -40,7 +40,7 @@ var path = {
 	js_hint: ['./dist/js/**/*.js', '!./dist/js/libs/**/*.js']
 };
 
-gulp.task('pug', function() {
+gulp.task('html', function() {
 	gulp.src([
 		path.src_html + '*.pug',
 		path.src_html + '**/*.pug',
@@ -54,7 +54,7 @@ gulp.task('pug', function() {
 		.pipe(gulp.dest(path.dist_html));
 });
 
-gulp.task('stylus', function () {
+gulp.task('css', function () {
 	console.log("path.src_css", path.src_css);
 	console.log("path.dist_css", path.dist_css);
 	return gulp.src([
@@ -180,17 +180,17 @@ gulp.task('browserSync', function(){
 
 gulp.task('watch', function() {
 	gulp.start('browserSync');
-	gulp.watch([path.src_html + '**/*.pug'], ['pug', browserSync.reload]);
-	gulp.watch([path.src_css + '**/*.styl'], ['stylus', browserSync.reload]);
+	gulp.watch([path.src_html + '**/*.pug'], ['html', browserSync.reload]);
+	gulp.watch([path.src_css + '**/*.styl'], ['css', browserSync.reload]);
 	gulp.watch([path.src_js + '**/*.coffee'], ['js', browserSync.reload]);
 });
 
 gulp.task('fonts', function(cb){
-	runSequence('fonts:compile', 'stylus', 'copy:fonts', cb)
+	runSequence('fonts:compile', 'css', 'copy:fonts', cb)
 });
 
 gulp.task('icons', function(cb){
-	runSequence('icons:compile', 'fonts:compile', 'stylus', 'copy:fonts', cb)
+	runSequence('icons:compile', 'fonts:compile', 'css', 'copy:fonts', cb)
 });
 
 gulp.task('bower', function() {
@@ -198,5 +198,5 @@ gulp.task('bower', function() {
 });
 
 gulp.task('default', function(cb) {
-	runSequence('bower', 'pug', 'js', 'stylus', 'sprite', 'imagemin', 'fonts', 'icons', cb);
+	runSequence('bower', 'html', 'js', 'css', 'sprite', 'imagemin', 'fonts', 'icons', cb);
 });

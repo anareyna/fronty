@@ -12,6 +12,6 @@
 	vertical-align middle
 
 <% _.each(glyphs, function(glyph) { %>
-.icon_<%= glyph.name %>:before
+.icon-<%= glyph.name %>:before
 	content "\<%= glyph.codepoint.toString(16).toUpperCase() %>"
 <% }); %>
