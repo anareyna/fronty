@@ -11,7 +11,6 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
-var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var pleeease = require('gulp-pleeease');
@@ -19,6 +18,7 @@ var iconfont = require('gulp-iconfont');
 var consolidate = require("gulp-consolidate");
 var plumberNotifier = require('gulp-plumber-notifier');
 var bower = require('gulp-bower');
+var babel = require('gulp-babel');
 var fs = require('fs');
 
 var config = {
@@ -29,7 +29,7 @@ var path = {
 	frontend: 'src/',
 	src_html: 'src/preprocessors/pug/',
 	src_css: 'src/preprocessors/stylus/',
-	src_js: 'src/preprocessors/coffee/',
+	src_js: 'src/preprocessors/js/',
 	jsSrc: 'src/js/**/*.js',
 	dist_html: './dist/',
 	dist_css: './dist/css/',
@@ -55,8 +55,6 @@ gulp.task('html', function() {
 });
 
 gulp.task('css', function () {
-	console.log("path.src_css", path.src_css);
-	console.log("path.dist_css", path.dist_css);
 	return gulp.src([
 		path.src_css + '**/*.styl',
 		'!' + path.src_css + '**/**/_**/*.styl',
@@ -74,19 +72,28 @@ gulp.task('css', function () {
 	.pipe(gulp.dest(path.dist_css));
 });
 
-
-gulp.task('coffee', function() {
-	return gulp.src([
-		path.src_js + '**/*.coffee',
-		'!' + path.src_js + '**/_*.coffee'
+gulp.task('js', function(cb) {
+		return gulp.src([
+		path.src_js + '**/*.js',
+		'!' + path.src_js + '_**/*.js',
+		'!' + path.src_js + '**/_*.js'
 	])
 	.pipe(plumberNotifier())
-	.pipe(coffee({bare: true}).on('error', gutil.log))
+	.pipe(jshint())
+	.pipe(jshint.reporter('jshint-stylish'))
+	.pipe(jshint.reporter('fail'))
+	.pipe(babel({
+			presets: ['es2015']
+	}))
 	.pipe(uglify({
 		mangle  : false,
+		compress: {
+			drop_console: false,
+			drop_debugger: true
+		},
 		output: { beautify: !config.is_minified }
 	}))
-	.pipe(gulp.dest(path.dist_js))
+	.pipe(gulp.dest(path.dist_js));
 });
 
 gulp.task('sprite', function () {
@@ -112,21 +119,6 @@ gulp.task('imagemin', function () {
 	}))
 	.pipe(gulp.dest(path.dist_img));
 	});
-
-
- gulp.task('jshint', function() {
-	 return gulp.src(path.js_hint)
-		.pipe(jshint('.jshintrc'))
-		.pipe(plumberNotifier())
-		.pipe(jshint.reporter('jshint-stylish'))
-		.pipe(jshint.reporter('fail'));
- });
-
-gulp.task('concatjs', function() {
-	return gulp.src([path.jsSrc, path.dist_js + 'app.js' ])
-		.pipe(concat('app.js'))
-		.pipe(gulp.dest(path.js));
-});
 
 gulp.task('fonts:compile', function(cb){
 	var dirList = []
@@ -163,10 +155,6 @@ gulp.task('copy:fonts', function() {
 			path.frontend + 'fonts/**/*.*',
 				{ base : path.frontend })
 		.pipe(gulp.dest(path.dist_html));
-});
-
-gulp.task('js', function(cb) {
-	return runSequence('coffee', 'jshint', cb);
 });
 
 gulp.task('browserSync', function(){

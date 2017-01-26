@@ -32,8 +32,8 @@ fronty/
     │   ├── sprite/
     │   └── logo.png
     └── preprocessors/
-        ├── coffee/
-        │   └── app.coffee
+        ├── js/
+        │   └── app.js
         ├── pug/
         │   ├── _config/
         │   ├── _mixins/
@@ -54,7 +54,7 @@ fronty/
 * `img` : You have to add all the images that will be used in your project here, a copy of the optimized images will then be exported to the `dist/img` folder.
     * `sprite` : Here you can add separated image files that will be part of your sprite which will be created  automatically from here with a gulp task. These images need to be in `.png` format.
 * `preprocessors`
-    * `coffee` : This folder contains a file named `app.coffee` which has a basic module structure to get you started and should contain all your application logic.
+    * `js` : This folder contains a file named `app.js` which has a basic module structure to get you started and should contain all your application logic (supports ES6) with Babel.
     * `pug` : This folder contains all your `.pug` files separated in nice individual folders for future project scalability and better debugging. The `index.pug` file is your starting point.
         * `_config` : Place all your configurations and pug variables here.
 	    * `_mixins` : Add mixins in the `mixins.pug` file.
@@ -84,11 +84,11 @@ This will compile all the `.styl` files in `src/preprocessors/stylus` and concat
 ```
 This will compile to html all the `.pug` files in `src/preprocessors/pug` and place them into the folder located in `dist/`.
 
-### Compile Coffee
+### Compile Javascript
 ```
-	gulp coffee
+	gulp js
 ```
-This will compile all the `.coffee` files in `src/preprocessors/coffee` and concatenate them to a single file located in `dist/js/app.js`. If you want to use any js plugin it's recommended that you do so by using [bower](http://bower.io).
+This will transpile all the `.js` files in `src/preprocessors/js` and output them in `dist/js/` folder. If you want to use any js plugin it's recommended that you do so by using [bower](http://bower.io).
 
 ### Generate sprites
 
@@ -126,7 +126,7 @@ This task will create a copy of all your image files located in `src/img/` and c
 
 
 ## Resources
-* [Coffescript](http://coffeescript.org/)
+* [Babel](https://babeljs.io/)
 * [Pug](http://pugjs.org/)
 * [Stylus](https://learnboost.github.io/stylus/) also uses [Lost (Grid System)](https://github.com/peterramsing/lost) and [Rupture (Media queries)](https://github.com/jenius/rupture)
 * [Pleeease](http://pleeease.io/) (comes with Autoprefixer, fallbacks for rem unit and CSS3 pseudo-elements, packs same media queries & more...)

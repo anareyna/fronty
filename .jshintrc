@@ -8,6 +8,7 @@
     "jQuery",
     "console"
   ],
+  "esversion": 6,
   "eqeqeq" : false,
   "eqnull" : false,
   "loopfunc" : false,
