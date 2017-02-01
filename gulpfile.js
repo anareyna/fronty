@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var pug = require('gulp-pug');
 var stylus = require('gulp-stylus');
 var rupture = require('rupture');
@@ -8,6 +7,7 @@ var lost = require('lost');
 var coffee = require('gulp-coffee');
 var spritesmith = require("gulp.spritesmith");
 var imagemin = require('gulp-imagemin');
+var changed = require('gulp-changed');
 var pngquant = require('imagemin-pngquant');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
@@ -111,12 +111,16 @@ gulp.task('sprite', function () {
 });
 
 gulp.task('imagemin', function () {
-	return gulp.src(path.src_img + '**')
+	return gulp.src(path.src_img + '**/*.*')
+	.pipe(changed(path.dist_img))
 	.pipe(imagemin({
 		progressive: true,
 		svgoPlugins: [{removeViewBox: false}],
 		use: [pngquant()]
 	}))
+	.on("data", function(file){
+		console.log('changed file : ', file.path);
+	})
 	.pipe(gulp.dest(path.dist_img));
 	});
 
