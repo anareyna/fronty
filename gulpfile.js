@@ -1,43 +1,43 @@
-var gulp = require('gulp');
-var pug = require('gulp-pug');
-var stylus = require('gulp-stylus');
-var rupture = require('rupture');
-var poststylus = require('poststylus');
-var lost = require('lost');
-var coffee = require('gulp-coffee');
-var spritesmith = require("gulp.spritesmith");
-var imagemin = require('gulp-imagemin');
-var changed = require('gulp-changed');
-var pngquant = require('imagemin-pngquant');
-var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var jshint = require('gulp-jshint');
-var uglify = require('gulp-uglify');
-var pleeease = require('gulp-pleeease');
-var iconfont = require('gulp-iconfont');
-var consolidate = require("gulp-consolidate");
+var gulp            = require('gulp');
+var pug             = require('gulp-pug');
+var stylus          = require('gulp-stylus');
+var rupture         = require('rupture');
+var poststylus      = require('poststylus');
+var lost            = require('lost');
+var coffee          = require('gulp-coffee');
+var spritesmith     = require("gulp.spritesmith");
+var imagemin        = require('gulp-imagemin');
+var changed         = require('gulp-changed');
+var pngquant        = require('imagemin-pngquant');
+var runSequence     = require('run-sequence');
+var browserSync     = require('browser-sync');
+var jshint          = require('gulp-jshint');
+var uglify          = require('gulp-uglify');
+var pleeease        = require('gulp-pleeease');
+var iconfont        = require('gulp-iconfont');
+var consolidate     = require("gulp-consolidate");
 var plumberNotifier = require('gulp-plumber-notifier');
-var bower = require('gulp-bower');
-var babel = require('gulp-babel');
-var fs = require('fs');
+var bower           = require('gulp-bower');
+var babel           = require('gulp-babel');
+var fs              = require('fs');
 
 var config = {
 	is_minified: false
 }
 
 var path = {
-	frontend: 'src/',
-	src_html: 'src/preprocessors/pug/',
-	src_css: 'src/preprocessors/stylus/',
-	src_js: 'src/preprocessors/js/',
-	jsSrc: 'src/js/**/*.js',
-	dist_html: './dist/',
-	dist_css: './dist/css/',
-	dist_js: './dist/js/',
-	src_sprite: 'src/img/sprite/*.png',
-	src_img: 'src/img/',
-	dist_img: './dist/img/',
-	js_hint: ['./dist/js/**/*.js', '!./dist/js/libs/**/*.js']
+	frontend   : 'src/',
+	src_html   : 'src/preprocessors/pug/',
+	src_css    : 'src/preprocessors/stylus/',
+	src_js     : 'src/preprocessors/js/',
+	jsSrc      : 'src/js/**/*.js',
+	dist_html  : './dist/',
+	dist_css   : './dist/css/',
+	dist_js    : './dist/js/',
+	src_sprite : 'src/img/sprite/*.png',
+	src_img    : 'src/img/',
+	dist_img   : './dist/img/',
+	js_hint    : ['./dist/js/**/*.js', '!./dist/js/libs/**/*.js']
 };
 
 gulp.task('html', function() {
