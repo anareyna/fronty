@@ -174,7 +174,7 @@ gulp.task('watch', function() {
 	gulp.start('browserSync');
 	gulp.watch([path.src_html + '**/*.pug'], ['html', browserSync.reload]);
 	gulp.watch([path.src_css + '**/*.styl'], ['css', browserSync.reload]);
-	gulp.watch([path.src_js + '**/*.coffee'], ['js', browserSync.reload]);
+	gulp.watch([path.src_js + '**/*.js'], ['js', browserSync.reload]);
 });
 
 gulp.task('fonts', function(cb){
