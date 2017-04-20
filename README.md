@@ -74,26 +74,26 @@ In the terminal make sure you are in the `fronty/` directory.
 
 ### Compile Stylus
 ```
-	gulp css
+gulp css
 ```
 This will compile all the `.styl` files in `src/preprocessors/stylus` and concatenate them to a single file located in `dist/css/layout.css`, except for `fonts.styl` and `ie.styl` which will be compiled to separared css files `dist/css/fonts.css` and `dist/css/ie.css`.
 
 ### Compile Pug
 ```
-	gulp html
+gulp html
 ```
 This will compile to html all the `.pug` files in `src/preprocessors/pug` and place them into the folder located in `dist/`.
 
 ### Compile Javascript
 ```
-	gulp js
+gulp js
 ```
 This will transpile all the `.js` files in `src/preprocessors/js` and output them in `dist/js/` folder. If you want to use any js plugin it's recommended that you do so by using [bower](http://bower.io).
 
 ### Generate sprites
 
 ```
-	gulp sprite
+gulp sprite
 ```
 This task will create the `sprite.png` located at `dist/img/` which will also be the optimized (minified) image version.
 In order to use the mixin that this task creates you have to follow this structure in any of your `.styl` files.
@@ -108,19 +108,19 @@ Which will render to css. Notice that the `$ico1` variable name has to be the sa
 ## Generate icons
 
 ```
-    gulp icons
+gulp icons
 ```
 This task will generate the `iconFont` font for the icons that you can place in the `src/icons/` with the `*.svg` extension.
 
 ## Generate font styles
 ```
-    gulp fonts
+gulp fonts
 ```
 This task will generate the styles for the fonts placed in the `src/fonts/` folder.
 
 ### Minimize images
 ```
-	gulp imagemin
+gulp imagemin
 ```
 This task will create a copy of all your image files located in `src/img/` and create an optimized and lighter version in the folder `dist/img/`.
 
